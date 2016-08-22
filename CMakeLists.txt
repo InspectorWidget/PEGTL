@@ -22,6 +22,7 @@ cmake_minimum_required(VERSION 3.0.0)
 option(BUILD_SHARED_LIBS "Build ${TARGET_NAME} libraries as shared" OFF)
 option(USE_DEBUG "Use Debug" ON)
 option(BUILD_DOCUMENTATION "Build ${TARGET_NAME} reference documentation using doxygen (use: make documentation)" OFF)
+option(BUILD_APPS "Build apps" OFF)
 
 if(USE_DEBUG)
 	message( "\nConfigured for Debug Build")
@@ -67,6 +68,7 @@ target_sources(${TARGET_NAME} INTERFACE ${${TARGET_NAME}_HDR} ${CMAKE_CURRENT_SO
 #         APPS       #
 ######################
 
+if(BUILD_APPS)
 include_directories(${CURRENT_SOURCE_DIR}/examples)
 file(GLOB ${TARGET_NAME}_DEMO_SRCS examples/*.cc)
 foreach(${TARGET_NAME}_DEMO_SRC ${${TARGET_NAME}_DEMO_SRCS})
@@ -75,6 +77,7 @@ foreach(${TARGET_NAME}_DEMO_SRC ${${TARGET_NAME}_DEMO_SRCS})
 	add_executable(${TARGET_NAME}-example-${${TARGET_NAME}_DEMO} ${${TARGET_NAME}_DEMO_SRC})
 	target_link_libraries(${TARGET_NAME}-example-${${TARGET_NAME}_DEMO} ${TARGET_NAME})
 endforeach()
+endif()
 
 ######################
 #        TESTS       #
